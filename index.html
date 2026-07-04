@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPIT — fast card game</title>
+<style>
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(ellipse at center, #0b5d33 0%, #07401f 100%);
+    color: #fff; min-height: 100vh; margin: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  }
+  h1 { font-size: 56px; letter-spacing: 12px; text-shadow: 0 4px 12px rgba(0,0,0,.5); margin: 0; }
+  .sub { font-size: 14px; letter-spacing: 4px; opacity: .7; }
+  #status { font-size: 18px; opacity: .85; }
+  a { color: #ffc93c; }
+</style>
+</head>
+<body>
+<h1>SPIT</h1>
+<div class="sub">no turns. no mercy.</div>
+<div id="status">Dealing you in…</div>
+<script>
+  // the game server address lives in server.json so this page's URL never changes
+  fetch('server.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(cfg => {
+      if (cfg && cfg.url) location.replace(cfg.url);
+      else throw new Error('no url');
+    })
+    .catch(() => {
+      document.getElementById('status').innerHTML =
+        'The game server is offline at the moment — check back in a little while.';
+    });
+</script>
+</body>
+</html>
